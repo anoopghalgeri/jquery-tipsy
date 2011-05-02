@@ -22,14 +22,17 @@
             if (title && this.enabled) {
                 var $tip = this.tip();
                 
-                $tip.find('.tipsy-inner')[this.options.html ? 'html' : 'text'](title);
                 $tip[0].className = 'tipsy'; // reset classname in case of dynamic gravity
-                $tip.remove().css({top: 0, left: 0, visibility: 'hidden', display: 'block'}).prependTo(document.body);
+                $tip.remove().css({top: 0, left: 0, visibility: 'hidden', display: 'block'})[this.options.insertMethod](this.options.insertTo);
                 
                 var pos = $.extend({}, this.$element.offset(), {
                     width: this.$element[0].offsetWidth,
                     height: this.$element[0].offsetHeight
                 });
+                
+                var parentOffset = $tip.offsetParent().offset();
+                pos.top -= parentOffset.top;
+                pos.left -= parentOffset.left;
                 
                 var actualWidth = $tip[0].offsetWidth,
                     actualHeight = $tip[0].offsetHeight,
@@ -188,7 +191,9 @@
         offset: 0,
         opacity: 0.8,
         title: 'title',
-        trigger: 'hover'
+        trigger: 'hover',
+        insertTo: 'body',
+        insertMethod: 'prependTo'
     };
     
     // Overwrite this method to provide options on a per-element basis.

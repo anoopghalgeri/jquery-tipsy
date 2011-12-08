@@ -22,6 +22,7 @@
             if (title && this.enabled) {
                 var $tip = this.tip();
                 
+                $tip.find('.tipsy-inner')[this.options.html ? 'html' : 'text'](title);
                 $tip[0].className = 'tipsy'; // reset classname in case of dynamic gravity
                 $tip.remove().css({top: 0, left: 0, visibility: 'hidden', display: 'block'})[this.options.insertMethod](this.options.insertTo);
                 
@@ -29,10 +30,6 @@
                     width: this.$element[0].offsetWidth,
                     height: this.$element[0].offsetHeight
                 });
-                
-                var parentOffset = $tip.offsetParent().offset();
-                pos.top -= parentOffset.top;
-                pos.left -= parentOffset.left;
                 
                 var actualWidth = $tip[0].offsetWidth,
                     actualHeight = $tip[0].offsetHeight,
@@ -62,7 +59,7 @@
                     }
                 }
                 
-                $tip.css(tp).addClass('tipsy-' + gravity);
+                $tip.offset(tp).addClass('tipsy-' + gravity);
                 $tip.find('.tipsy-arrow')[0].className = 'tipsy-arrow tipsy-arrow-' + gravity.charAt(0);
                 if (this.options.className) {
                     $tip.addClass(maybeCall(this.options.className, this.$element[0]));
